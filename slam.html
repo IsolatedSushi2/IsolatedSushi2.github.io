@@ -40,8 +40,11 @@
 								 A camera accopmanied with a depth sensor would suffice to create a trivial algorithm.
 								 This project was about creating a tool to simplify the design process. 
 							  </p>
+							  <p>
+								In order to describe this project, a short video is created to showcase the main features. Additionally, some more detail is given below, together with some GIFS. Note that these GIFS do have a lower image quality.
+							  </p>	
 							  <div class="video-container">
-								<iframe width="560" height="315" src="https://www.youtube.com/embed/d3T68SCjZhY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/U_UbyW0Za7o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 							</div>
 						</div>
 						  </section>
@@ -53,7 +56,7 @@
 								<h2 class="major">Video Frames</h2>
 								<p>
 								  The videos used for this project are from the <a href="https://vision.in.tum.de/data/datasets/rgbd-dataset">RGB-D SLAM Dataset.</a>
-								  Each frame consists of the image itself, and the associated depth image.
+								  Each frame consists of the image itself, and the associated depth data.
 								  Using the <a href="https://opencv.org/">opencv library</a>, all notable points are extracted.
 								  According to the documentation: "The keypoint is characterized by the 2D position, scale, orientation and some other parameters.
 								  The keypoint neighborhood is then analyzed. The keypoints representing the same object in different images can then be matched using KDTree or another method."
@@ -71,9 +74,10 @@
 								<h2 class="major">Camera Movement</h2>
 								<p>
 								   A visualiser is created in order to view, and validate the camera movement.
+								   Each point corresponds to a single frame from the video, with the lines indicating the camera direction.
 								   It is possible to compare the calculated transformations to the ground truth given by the dataset.
-								   With the bottom sliding bar it is possible to view the animated camera translation and rotation.
-								   With a gradient, the order between points is shown. Note that the GIF format severely limits the image quality.
+								   With the bottom sliding bar the movement of the cameras can be animated.
+								   By making use of a gradient, the order between points is shown. Note that the GIF format severely limits the image quality.
 								   For better quality, the youtube video at the top is provided.
 								</p>
 								<img class="inner" src="GIFS/Camera.gif" />
@@ -90,7 +94,8 @@
 								  With the calculated positions and rotations we can transform the images in camera space to world space.
 								  For visualisation, the <a href="https://vispy.org/">VisPy</a> library was used.
 								  <a href="https://vispy.org/">VisPy</a> is a high-performance interactive 2D/3D data visualization library leveraging the computational power of modern Graphics Processing Units (GPUs) through the OpenGL library to display very large datasets.
-								  With this, point clouds containing million of points can interactively be visualised. As shown in the main video on the top of the page, the points per frame can be animated.
+								  With this, point clouds containing millions of points can interactively be visualised.
+								  As shown in the main video on the top of the page, the points per frame can be animated.
 								</p>
 								<img class="inner" src="GIFS/PointCloud.gif" />
 							  </div>
@@ -102,7 +107,10 @@
 							  <div class="content">
 								<h2 class="major">Metrics</h2>
 								<p>
-								  Metrics are an important method to validate the calculated movement. This way, the algorithms performance can be captured, which in turn allows numerical comparisons. Think of metrics like the difference in modeled and true positions or rotations. Alternatively, the amount of keypoints found in a frame, or how many were matched.
+								  Metrics are an important method to validate the calculated movement.
+								  This way, the algorithms performance can be captured, which in turn allows for numerical comparisons.
+								  Think of metrics like the difference in modeled and true positions or rotations.
+								  Alternatively, the amount of keypoints found in a frame, or how many were matched.
 								</p>
 								<img class="inner" src="GIFS/Charts.gif" />
 							  </div>
