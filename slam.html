@@ -14,7 +14,7 @@
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 	</head>
 	<body class="is-preload">
-
+		<section id="wrapper">
 		<!-- Page Wrapper -->
 			<div id="page-wrapper">
 
@@ -31,21 +31,86 @@
 								<h2>SLAM</h2>
 							</div>
 						</header>
-
-						<!-- Content -->
-							<div class="wrapper">
-								<div class="inner">
-
-									<h3 class="major">Description</h3>
-                  <p>Simultaneous localization and mapping (SLAM) is the computational problem of constructing or updating a map of an unknown environment while simultaneously keeping track of an agent's location within it. A camera accopmanied with a depth sensor would suffice to create a trivial algorithm. This project was about creating a tool to simplify the design process.</p> 
-                  <video controls>
-                    <source src="videos/SLAM/Frames.mp4" type="video/mp4">
-                </video>
-								</div>
+						
+						<section id="one" class="wrapper alt style1">
+							<div class="inner">
+							  <h2 class="major">Description</h2>
+							  <p>
+								Simultaneous localization and mapping (SLAM) is the computational problem of constructing or updating a map of an unknown environment while simultaneously keeping track of an agent's location within it.
+								 A camera accopmanied with a depth sensor would suffice to create a trivial algorithm.
+								 This project was about creating a tool to simplify the design process. 
+							  </p>
+							  <div class="video-container">
+								<iframe width="560" height="315" src="https://www.youtube.com/embed/d3T68SCjZhY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 							</div>
+						</div>
+						  </section>
+				  
+						  <!-- Three -->
+						  <section id="three" class="wrapper spotlight style2">
+							<div class="inner">
+							  <div class="content">
+								<h2 class="major">Video Frames</h2>
+								<p>
+								  The videos used for this project are from the <a href="https://vision.in.tum.de/data/datasets/rgbd-dataset">RGB-D SLAM Dataset.</a>
+								  Each frame consists of the image itself, and the associated depth image.
+								  Using the <a href="https://opencv.org/">opencv library</a>, all notable points are extracted.
+								  According to the documentation: "The keypoint is characterized by the 2D position, scale, orientation and some other parameters.
+								  The keypoint neighborhood is then analyzed. The keypoints representing the same object in different images can then be matched using KDTree or another method."
+								  The idea is that this way, we can find corresponding points in subsequent frames. From that, we can perform some calculations to extract the camera movement in 3d space.
+								</p>
+								<img class="inner" src="GIFS/frames.gif" />
+							  </div>
+							</div>
+						  </section>
+
+						  <!-- Four -->
+						  <section id="four" class="wrapper alt spotlight style3">
+							<div class="inner">
+							  <div class="content">
+								<h2 class="major">Camera Movement</h2>
+								<p>
+								   A visualiser is created in order to view, and validate the camera movement.
+								   It is possible to compare the calculated transformations to the ground truth given by the dataset.
+								   With the bottom sliding bar it is possible to view the animated camera translation and rotation.
+								   With a gradient, the order between points is shown. Note that the GIF format severely limits the image quality.
+								   For better quality, the youtube video at the top is provided.
+								</p>
+								<img class="inner" src="GIFS/Camera.gif" />
+							  </div>
+							</div>
+						  </section>
+
+						  <!-- Five -->
+						  <section id="five" class="wrapper spotlight style4">
+							<div class="inner">
+							  <div class="content">
+								<h2 class="major">Point Cloud</h2>
+								<p>
+								  With the calculated positions and rotations we can transform the images in camera space to world space.
+								  For visualisation, the <a href="https://vispy.org/">VisPy</a> library was used.
+								  <a href="https://vispy.org/">VisPy</a> is a high-performance interactive 2D/3D data visualization library leveraging the computational power of modern Graphics Processing Units (GPUs) through the OpenGL library to display very large datasets.
+								  With this, point clouds containing million of points can interactively be visualised. As shown in the main video on the top of the page, the points per frame can be animated.
+								</p>
+								<img class="inner" src="GIFS/PointCloud.gif" />
+							  </div>
+							</div>
+						  </section>
+						  <!-- Six -->
+						  <section id="six" class="wrapper alt spotlight style5">
+							<div class="inner">
+							  <div class="content">
+								<h2 class="major">Metrics</h2>
+								<p>
+								  Metrics are an important method to validate the calculated movement. This way, the algorithms performance can be captured, which in turn allows numerical comparisons. Think of metrics like the difference in modeled and true positions or rotations. Alternatively, the amount of keypoints found in a frame, or how many were matched.
+								</p>
+								<img class="inner" src="GIFS/Charts.gif" />
+							  </div>
+							</div>
+						  </section>
 
 					</section>
-
+				</section>
 				<!-- Footer -->
         <section id="footer">
           <div class="inner">
