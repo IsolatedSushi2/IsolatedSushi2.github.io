@@ -53,7 +53,7 @@
 								<p>
 									The videos used in this project come from the <a href="https://vision.in.tum.de/data/datasets/rgbd-dataset">RGBD SLAM Dataset</a>. Each frame contains an image along with its corresponding depth data. Using the <a href="https://opencv.org/">OpenCV library</a>, keypoints are extracted from each image. These are visually distinctive features such as corners or blobs. Each keypoint includes its 2D position in the image, the scale at which it was detected, its orientation relative to the image gradient, and a descriptor, which is a compact vector representing the texture around the keypoint. This allows matching keypoints between frames, from which the camera’s motion in 3D space is estimated.
 								</p>
-								<img class="inner" src="images/SLAM/keypoints.png" />
+								<img class="inner" src="images/SLAM/keypoints.webp" />
 							  </div>
 							</div>
 						  </section>
@@ -66,7 +66,7 @@
 								<p>
 									A visualiser was created to view and validate the camera movement. Each point represents a single frame from the video, with lines indicating the camera’s direction. The calculated transformations can be compared to the ground truth provided by the dataset.
 								</p>
-								<img class="inner" src="images/SLAM/path.png" />
+								<img class="inner" src="images/SLAM/path.webp" />
 							  </div>
 							</div>
 						  </section>
@@ -79,7 +79,7 @@
 								<p>
 									With the calculated positions and rotations, we can transform the images from camera space to world space. For visualisation, the <a href="https://vispy.org/">VisPy</a> library was used. VisPy is a high-performance interactive 2D/3D data visualisation library that leverages the computational power of modern GPUs via OpenGL to display large datasets. This allows point clouds containing millions of points to be interactively visualised.
 								</p>
-								<img class="inner" src="images/SLAM/pointcloud.png" />
+								<img class="inner" src="images/SLAM/pointcloud.webp" />
 							  </div>
 							</div>
 						  </section>
@@ -91,7 +91,7 @@
 								<p>
 									Metrics are an important method for validating the calculated movement. They allow the performance of the algorithm to be quantified, enabling numerical comparisons. Examples of metrics include the difference between the modelled and true positions or rotations, as well as the number of keypoints detected in a frame or how many were matched.
 								</p>
-								<img class="inner" src="images/SLAM/metrics.png" />
+								<img class="inner" src="images/SLAM/metrics.webp" />
 							  </div>
 							</div>
 						  </section>
