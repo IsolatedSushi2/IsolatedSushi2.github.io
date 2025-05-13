@@ -38,19 +38,22 @@
 						
 						<section id="one" class="wrapper alt style1">
 							<div class="inner">
+								<div class="content">
+
 							  <h2 class="major">Description</h2>
 							  <p>
 								This project focused on simulating crowd movement within real 3D urban environments by integrating multiple crowd simulation tools with public cadastral data and accurate road maps sourced from government websites. By querying the locations and forms of buildings and incorporating detailed infrastructure layouts, the simulation provided realistic visualisations of crowd dynamics in actual cityscapes.
 							  </p> 
 						</div>
+						</div>
 						  </section>
-				  
 						  <!-- Three -->
-						  <section id="two" class="wrapper spotlight style2">
+						  <section id="two" class="wrapper style1">
 							<div class="inner">
 							  <div class="content">
 								<h2 class="major">Area Selection</h2>
 								<p>
+									Using geographic coordinates, public datasets are queried to retrieve precise locations and metadata for buildings and roads. The simulation environment is then reconstructed using Delaunay triangulation, which partitions the urban landscape into smaller, manageable sections. 
 								</p>
 
 								<img class="inner" src="images/3D/environment.webp" />
@@ -60,12 +63,12 @@
 						  </section>
 
 						  <!-- Five -->
-						  <section id="three" class="wrapper alt spotlight style3">
+						  <section id="three" class="wrapper alt style1">
 							<div class="inner">
 							  <div class="content">
 								<h2 class="major">Walkable Surfaces</h2>
 								<p>
-								
+								Walkable surfaces are identified using metadata, distinguishing accessible areas like roads and footpaths from non-walkable zones such as water, grass, or restricted regions. This information is passed to the simulation engine to guide agent movement and ensure realistic navigation.
 								</p>
 								<img class="inner" src="images/3D/surfaces.webp" />
 
@@ -74,12 +77,12 @@
 						  </section>
 
 						  <!-- Six -->
-						  <section id="four" class="wrapper spotlight style4">
+						  <section id="four" class="wrapper style2">
 							<div class="inner">
 							  <div class="content">
 								<h2 class="major">Satellite data</h2>
 								<p>
-								
+								Satellite data is also used to enhance understanding of the environment and to validate the accuracy of spatial features within the simulation.
 								</p>
 								<img class="inner" src="images/3D/sattelite.webp" />
 							  </div>
@@ -89,7 +92,7 @@
 					</section>
 				</section>
 				<!-- Footer -->
-        <section id="footer">
+        <section id="footer" class="alt">
           <div class="inner">
             <h2 class="major">Contact information</h2>
             
