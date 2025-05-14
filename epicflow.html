@@ -7,7 +7,7 @@
 <html>
 	<head>
     <link rel="icon" type="image/png" href="favicon.png" />
-		<title>PandaSet</title>
+		<title>EpicFlow</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -28,9 +28,9 @@
 					<section id="wrapper">
 						<header>
 							<div class="inner">
-								<h2>PandaSet</h2>
+								<h2>Simulating Multi-project Management</h2>
 								<div class="video-container">
-									<iframe width="560" height="315" src="https://www.youtube.com/embed/qDjEdGJQVb4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+									<iframe width="560" height="315" src="https://www.youtube.com/embed/Rigc8QpUiwI?si=1ak2V8DL75CqNyQb" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 								</div>
 							</div>
 							
@@ -40,111 +40,64 @@
 							<div class="inner">
 							  <h2 class="major">Description</h2>
 							  <p>
-								PandaSet is the result of a collaberation between Scale AI and Hesai.
-								It is the first open-source AV dataset available for both academic and commercial use, PandaSet combines Hesai's best-in-class LiDAR sensors with Scale AI's high-quality data annotation.
-								PandaSet features data collected using a forward-facing LiDAR with image-like resolution (PandarGT) as well as a mechanical spinning LiDAR (Pandar64).
-								The collected data was annotated with a combination of cuboid and segmentation annotation (Scale 3D Sensor Fusion Segmentation).
+								Developed a project porfolio simulator in order to interactively simulate and analyse decision outcomes. Used as a training tool to teach multi-resource management concepts in educative settings.
 							  </p>
-							  <p>
-								  The data is <a href="https://pandaset.org/#data-collection">collected</a> using a specialised car as shown below.
-							  </p>
-							  <div class="image-container">
-								<img src="images/car-sensors-removebg-preview.png" width="30%"/>
-							   </div>
-							  
-							  <p>
-
-
-								<pre>
-
-								</pre>
-
-								In order to describe this project, a short video is created to showcase the main features. Additionally, some more detail is given below, together with some GIFS. Note that these GIFS do have a lower image quality.
-							  </p>								  
 						</div>
-						  </section>
-				  
-						  <!-- Three -->
-						  <section id="three" class="wrapper spotlight style2">
-							<div class="inner">
-							  <div class="content">
-								<h2 class="major">LiDaR Point Cloud</h2>
-								<p>
-							     A typical lidar sensor emits pulsed light waves from a laser into the environment.
-								 These pulses bounce off surrounding objects and return to the sensor.
-								 The sensor uses the time it took for each pulse to return to the sensor to calculate the distance it traveled.
-								 Repeating this process millions of times per second creates a precise, real-time 3D map of the environment. 
-								 This map can be visualised in a big point clound. Currently, around 3 million points are visualised. 
-								</p>
-								<img class="inner" src="GIFS/PandaSet/PointCloud.gif" />
-							  </div>
-							</div>
-						  </section>
 
-						  <!-- Four -->
-						  <section id="four" class="wrapper alt spotlight style3">
-							<div class="inner">
-							  <div class="content">
-								<h2 class="major">Time Stamps</h2>
-								<p>
-								  The dataset contains several trips, whilst each trip consists of around 80 timestamps.
-								  These timestamps are roughly a few seconds apart, This means that the car travels a few hundred meters.
-								  When recording, the car drives through a street, using its lidar sensors and cameras.
-								  We can visualise its trajectory trough the coloured line.
-								  The pointclouds can be visualised per timestamp instead of all of them combined.
-								</p>
-								<img class="inner" src="GIFS/PandaSet/Timestamps.gif" />
-							  </div>
-							</div>
-						  </section>
 
-						  <!-- Five -->
-						  <section id="five" class="wrapper spotlight style4">
-							<div class="inner">
+						<div class="inner">
 							  <div class="content">
-								<h2 class="major">Colour projection</h2>
+								<h2 class="major">Pipeline</h2>
 								<p>
-								Besides the lidar sensors, the car also records the images around itself.
-								With this information we can colorize the points in the pointcloud.
-								We do this by projecting the points from world space to image space, and reading the colour from the pixels.
-								By doing this for all the cameras, we can get a accurate colorization of the environment.
-								</p>
-								<img class="inner" src="GIFS/PandaSet/ColorProjection.gif" />
-							  </div>
-							</div>
-						  </section>
-						  <!-- Six -->
-						  <section id="six" class="wrapper alt spotlight style5">
-							<div class="inner">
-							  <div class="content">
-								<h2 class="major">Segmentation</h2>
-								<p>
-									The dataset also provides a segmentation.
-									This means that every point in the pointcloud is labeled to be a certain class.
-									For example, classes could be: cars, buildings, road markings et cetera.
-									This is incredibly useful when training classifiers for distinguishing cars from other objects, since it allows for supervised machine learning.
+									The project visualises the projects using a gantt chart. The projects are represented as a series of tasks, each with a start and end date. The tasks are colour-coded to to indicate which worker can work on them. Various priority mechanisms are implemented to allow the user to observe the effects on the final performance metrics such as profit, worker utilisation and project completion time.
+
+								<!-- <img class="inner" src="images/epicflow/pipeline.webp"/> -->
+								  <video class="inner" width="100%" height="100%" autoplay loop muted>
+    <source src="anim/pipeline.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+							</p>
+						</div>
+					</div>
+					
+					<div class="inner">
+						<div class="content">
+							<h2 class="major">Dashboard</h2>
+							<p>
+								In the dashboard the user can see the state of the projects and performance metrics for all past timesteps.
+								
+								<img class="inner" src="images/epicflow/dashboard.webp"/>
 
 								</p>
-								<img class="inner" src="GIFS/PandaSet/Segmentation.gif" />
 							  </div>
 							</div>
-						  </section>
+					<div class="inner">
+						<div class="content">
+							<h2 class="major">Dashboard</h2>
+							<p>
+								In the dashboard the user can see the state of the projects and performance metrics for all past timesteps.
+								
+								<img class="inner" src="images/epicflow/graphs.webp"/>
 
-						   <!-- Six -->
-						   <section id="seven" class="wrapper  spotlight style6">
-							<div class="inner">
-							  <div class="content">
-								<h2 class="major">Selection</h2>
-								<p>
-									This segmentation can also be used for creating masks. That way we can disable the visualisation for some classes entirely.
-									This yields a less cluttered view of the environment.
-									On the other hand, it could be used to create a less noisy environment when training classifiers.
-									This could be useful in the early stages of development, incrementally adding more objects to the environment.
 								</p>
-								<img class="inner" src="GIFS/PandaSet/selection.gif" />
 							  </div>
 							</div>
-						  </section>
+
+						<div class="inner">
+						<div class="content">
+							<h2 class="major">Dashboard</h2>
+							<p>
+								In the dashboard the user can see the state of the projects and performance metrics for all past timesteps.
+								
+								
+  <video class="inner" width="100%" height="100%" autoplay loop muted>
+    <source src="anim/flow.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+								</p>
+							  </div>
+							</div>
 					</section>
 				</section>
 				<!-- Footer -->
