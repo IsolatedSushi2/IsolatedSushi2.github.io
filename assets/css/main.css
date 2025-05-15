@@ -3053,7 +3053,6 @@ input, select, textarea {
 			input[type="button"],
 			button,
 			.button {
-				padding: 0;
 			}
 
 		}
