@@ -12,6 +12,16 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '\\[', right: '\\]', display: true},  // ✅ Add this line
+      {left: '\\(', right: '\\)', display: false}
+    ]
+  });"></script>
 	</head>
 	<body class="is-preload">
 		<section id="wrapper">
@@ -32,9 +42,54 @@
 							  <p>
 								Extended the Predictive Encoder-Decoder (PED) architecture to better handle unmeasurable parameters in control systems by structuring the latent space into separate local and global components. The local component captures short-term dynamics for immediate predictions, while the global component encodes consistent parametric effects across entire trajectories. This separation reduces error propagation over long sequences and enables effective aggregation of global information via an attention mechanism. This architecture is shown below:
 								<img class="inner" src="images/thumbnails/latentTransLarge.webp"/>
-								Further details will be added after the embargo period.
-							  </p>
+								A brief explanation is covered below. Further details will be added after the embargo period. 
+							</p>
 						</div>
+<div class="inner">
+							  <h2 class="major">Formal Description</h2>
+							  <p><strong>Spliced Attention: Key Equations and Description</strong></p>
+<p><strong>Spliced Attention: Key Equations and Description</strong></p>
+
+<p>The spliced Predictive Encoder-Decoder (PED) architecture separates the latent representation into local and global parts. The local part captures short-term segment-specific dynamics, while the global part captures long-term constant dynamics across segments in a cluster.</p>
+
+<p><strong>1. Latent Vector Splitting:</strong> Each encoded latent vector is split into local and global components:</p>
+<p>
+\[
+\begin{aligned}
+\mathbf{z}^\textnormal{loc}_{\mathcal{C}_c} &= \left[ z_{S_{ij}}[:q^\textnormal{loc}] \mid z_{S_{ij}} \in \mathbf{z}_{\mathcal{C}_c}\right], \\
+\mathbf{z}^\textnormal{glob}_{\mathcal{C}_c} &= \left[ z_{S_{ij}}[q^\textnormal{loc}:q^\textnormal{loc} +q^\textnormal{glob}] \mid z_{S_{ij}} \in \mathbf{z}_{\mathcal{C}_c}\right].
+\end{aligned}
+\]
+</p>
+
+<p><strong>2. Attention Weight Calculation:</strong> The attention layer assigns weights to segments in the cluster:</p>
+<p>
+\[
+\alpha_{\mathbb{A}({\mathcal{C}_c})} = \left[ \frac{e^{\mathbb{A}(S^A_{ij})}}{\sum\limits_{S'^A_{ij} \in \mathcal{C}_c} e^{\mathbb{A}(S'^A_{ij})}} \mid S^A_{ij} \in \mathcal{C}_c \right]
+\]
+</p>
+
+<p><strong>3. Weighted Combination of Global Latents:</strong> These weights are used to combine the global latent vectors:</p>
+<p>
+\[
+z^\textnormal{glob}_{\mathbb{A}(\mathcal{C}_c)} = \sum_{0 \leq v < c_s }  \mathbf{z}^\textnormal{glob}_{\mathcal{C}_c}[v] \cdot \alpha_{\mathbb{A}({\mathcal{C}_c})}[v]
+\]
+</p>
+
+<p><strong>4. Decoder with Combined Latents:</strong> The decoder uses both global and local components to predict future states:</p>
+<p>
+\[
+\hat{\mathbf{x}}^B_{\mathcal{C}_c} = \left[ \mathcal{D}_{\psi_d} \left( \mathbf{u}^B_{S_{ij}}, z^\textnormal{glob}_{\mathbb{A}(\mathcal{C}_c)}, \left[z^\textnormal{loc}_{S_{ij}}, \mathbf{x}^A_{S_{ij}}[-1]\right] \right) \mid S_{ij} \in \mathcal{C}_c \right]
+\]
+</p>
+
+
+
+
+						</div>
+
+						</div>
+
 						  </section>
 					</section>
 				</section>
