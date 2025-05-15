@@ -47,44 +47,130 @@
 						</div>
 <div class="inner">
 							  <h2 class="major">Formal Description</h2>
-							  <p><strong>Spliced Attention: Key Equations and Description</strong></p>
-<p><strong>Spliced Attention: Key Equations and Description</strong></p>
+							<!-- ––––– Spliced-attention PED: flowing explanation + quick symbol reference ––––– -->
+<!-- ───────────── Spliced-attention PED – flowing explanation + symbol table ───────────── -->
 
-<p>The spliced Predictive Encoder-Decoder (PED) architecture separates the latent representation into local and global parts. The local part captures short-term segment-specific dynamics, while the global part captures long-term constant dynamics across segments in a cluster.</p>
-
-<p><strong>1. Latent Vector Splitting:</strong> Each encoded latent vector is split into local and global components:</p>
 <p>
+Every recorded run of a control system, such as a flying drone, is first split into <em>segments</em>.
+A segment
+<span>\(S_{ij}= \langle (\mathbf x_t,\mathbf u_t)\mid t=0\dots T-1\rangle\)</span>
+is a fixed-length window of consecutvive states \( x_t \in \mathcal{X} \)  and control actions \( u_t \in \mathcal{U} \). 
+To train a predictive model, the segments are split into two parts:
+<span>\(S^{A}_{ij}=S_{ij}[:T_A]\)</span> (the recent <strong>past</strong>) and
+<span>\(S^{B}_{ij}=S_{ij}[T_A:T_A+T_B]\)</span> (the not-yet-seen <strong>future</strong>),
+with <span>\(T=T_A+T_B\)</span>.  
+The learning task is: <q>given the past measurements
+\(S^{A}_{ij}\) and the future control inputs
+\(\mathbf u^{B}_{S_{ij}}\), predict the future measurable states
+\(\mathbf x^{B}_{S_{ij}}\)</q>.
+</p>
+
+<p>
+Because several slow parameters (battery health, actuator
+efficiency&hellip;) roughly remain constant throughout one run, we gather
+<span>\(c_s\)</span> segments from the same run into a
+<em>cluster</em>
+<span>\(\mathcal C_c=[S_{ij_0},\dots,S_{ij_{c_s-1}}]\)</span>.  
+Each past half <span>\(S^{A}_{ij}\)</span> is fed to an encoder \( \mathcal{E}_{\psi_e}\) that
+produces a <em>spliced</em> latent vector
+<span>\(z_{S_{ij}}=[\,z^{\text{loc}}_{S_{ij}},\;
+                     z^{\text{glob}}_{S_{ij}}\,]\)</span>:
+</p>
+<ul>
+ <li><span>\(z^{\text{loc}}_{S_{ij}}\)</span> &mdash; captures
+      fast, segment-specific effects (e.g.&nbsp;wind-gusts);</li>
+ <li><span>\(z^{\text{glob}}_{S_{ij}}\)</span> &mdash; aims to capture
+      the run-level constants shared by every segment in the cluster.</li>
+</ul>
+
+<p>
+Not every segment is equally informative.  
+An attention network
+<span>\(\mathbb A\)</span> scores each past window and converts the
+scores into weights
+</p>
+
+<p style="text-align:center">
 \[
-\begin{aligned}
-\mathbf{z}^\textnormal{loc}_{\mathcal{C}_c} &= \left[ z_{S_{ij}}[:q^\textnormal{loc}] \mid z_{S_{ij}} \in \mathbf{z}_{\mathcal{C}_c}\right], \\
-\mathbf{z}^\textnormal{glob}_{\mathcal{C}_c} &= \left[ z_{S_{ij}}[q^\textnormal{loc}:q^\textnormal{loc} +q^\textnormal{glob}] \mid z_{S_{ij}} \in \mathbf{z}_{\mathcal{C}_c}\right].
-\end{aligned}
+\alpha_{\mathbb A(\mathcal C_c)}=
+\Bigl[
+  \frac{e^{\mathbb A(S^{A}_{ij})}}
+        {\sum_{S'^{A}_{ij}\in\mathcal C_c}e^{\mathbb A(S'^{A}_{ij})}}
+  \;\Bigm|\;
+  S^{A}_{ij}\in\mathcal C_c
+\Bigr].
+\tag{1}
 \]
 </p>
 
-<p><strong>2. Attention Weight Calculation:</strong> The attention layer assigns weights to segments in the cluster:</p>
 <p>
+The global parts are then pooled:
+<span>\(z^{\text{glob}}_{\mathbb A(\mathcal C_c)}
+      =\sum_v\alpha_v z^{\text{glob}}_{S_{ij_v}}\)</span>.
+This single vector summarises the slow dynamics and is supplied to
+<em>every</em> decoder in the cluster, so all predictions agree on the
+shared context.
+</p>
+
+<p>
+Before decoding starts we transform the last observed state
+<span>\(\mathbf x^{A}_{S_{ij}}[-1]\)</span> into the initial hidden state
+of the LSTM decoder.  Handing over this exact <q>present</q> allows the
+latent vectors to concentrate on <em>unknown</em> influences rather than
+wasting capacity on readily measurable quantities.
+</p>
+
+<p>
+The complete decoding step is therefore
+</p>
+
+<p style="text-align:center">
 \[
-\alpha_{\mathbb{A}({\mathcal{C}_c})} = \left[ \frac{e^{\mathbb{A}(S^A_{ij})}}{\sum\limits_{S'^A_{ij} \in \mathcal{C}_c} e^{\mathbb{A}(S'^A_{ij})}} \mid S^A_{ij} \in \mathcal{C}_c \right]
+\smash{\hat{\mathbf x}^{B}_{\mathcal C_c}=%
+\Bigl[\mathcal D_{\psi_d}\!\bigl(
+          \mathbf u^{B}_{S_{ij}},\,
+          z^{\text{glob}}_{\mathbb A(\mathcal C_c)},\,
+          [\,z^{\text{loc}}_{S_{ij}},\mathbf x^{A}_{S_{ij}}[-1]\,]
+\!\bigr)
+\;\Bigm|\;
+S_{ij}\in\mathcal C_c\Bigr]}.
+\tag{2}
 \]
 </p>
 
-<p><strong>3. Weighted Combination of Global Latents:</strong> These weights are used to combine the global latent vectors:</p>
 <p>
-\[
-z^\textnormal{glob}_{\mathbb{A}(\mathcal{C}_c)} = \sum_{0 \leq v < c_s }  \mathbf{z}^\textnormal{glob}_{\mathcal{C}_c}[v] \cdot \alpha_{\mathbb{A}({\mathcal{C}_c})}[v]
-\]
+Equation&nbsp;(2) forces the decoder to be simultaneously consistent
+with three information sources: the common slow dynamics, the
+segment-specific fast dynamics, and the pre-known sequence of future
+control actions.  Training the network end-to-end shapes a latent
+space in which local and global factors are disentangled.
 </p>
 
-<p><strong>4. Decoder with Combined Latents:</strong> The decoder uses both global and local components to predict future states:</p>
 <p>
-\[
-\hat{\mathbf{x}}^B_{\mathcal{C}_c} = \left[ \mathcal{D}_{\psi_d} \left( \mathbf{u}^B_{S_{ij}}, z^\textnormal{glob}_{\mathbb{A}(\mathcal{C}_c)}, \left[z^\textnormal{loc}_{S_{ij}}, \mathbf{x}^A_{S_{ij}}[-1]\right] \right) \mid S_{ij} \in \mathcal{C}_c \right]
-\]
+By pooling information from many shorter segments within each cluster, the model uncovers subtle run-level constants without forcing any single decoder to predict far into the future. This design sidesteps the error accumulation that makes very long prediction horizons infeasible. The effect is illustrated in the figure below, where 200 time steps are subdivided into clusters of size 1, 2, 4, and 8 and the resulting prediction error is plotted.
+		<img class="inner" src="images/latentrepr/errorprop.webp"/>
+
 </p>
 
 
 
+<hr>
+
+<table border="1" cellpadding="4" cellspacing="0">
+  <caption>Key symbols</caption>
+  <tr><th>Symbol</th><th>Description</th></tr>
+  <tr><td>\(P_i\)</td><td>a complete recorded run</td></tr>
+  <tr><td>\(S_{ij}\)</td><td>segment <i>j</i> of run <i>i</i></td></tr>
+  <tr><td>\(S^{A}_{ij},\,S^{B}_{ij}\)</td><td>past / future split of a segment</td></tr>
+  <tr><td>\(\mathcal C_c\)</td><td>cluster of <span>\(c_s\)</span> segments that share run-level parameters</td></tr>
+  <tr><td>\(z^{\text{loc}}_{S_{ij}}\)</td><td>latent for fast, segment-specific effects</td></tr>
+  <tr><td>\(z^{\text{glob}}_{S_{ij}}\)</td><td>latent for slow, run-level effects</td></tr>
+  <tr><td>\(\alpha_{\mathbb A(\mathcal C_c)}\)</td><td>attention weights, see eq.&nbsp;(1)</td></tr>
+  <tr><td>\(z^{\text{glob}}_{\mathbb A(\mathcal C_c)}\)</td><td>attention-pooled global vector</td></tr>
+  <tr><td>\(\mathbf u^{B}_{S_{ij}}\)</td><td>future control inputs supplied to the decoder</td></tr>
+  <tr><td>\(\mathbf x^{A}_{S_{ij}}[-1]\)</td><td>last observed state, used to initialise the decoder</td></tr>
+  <tr><td>\(\hat{\mathbf x}^{B}_{\mathcal C_c}\)</td><td>decoder’s predicted future states, eq.&nbsp;(2)</td></tr>
+</table>
 
 						</div>
 
